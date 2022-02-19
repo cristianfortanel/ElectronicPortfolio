@@ -1,0 +1,79 @@
+import wmi
+import csv
+
+#A script that queries system information and saves the results in a csv file. 
+#It then sends that file to the desired location.
+#By Cristian Fortanel
+
+#------------------------------------------------------------------------------------------------#
+
+#WMI Classes
+object = wmi.WMI()
+pc_name = object.Win32_ComputerSystem()[0]
+win_account = object.Win32_Account()[0]
+win_bootconfiguration = object.Win32_BootConfiguration()[0]
+win_computersystem = object.Win32_ComputerSystemProduct()[0]
+logical_disk = object.Win32_LogicalDisk()[0]
+
+#------------------------------------------------------------------------------------------------#
+
+#Win32_ComputerSystem 
+computer_name = f"Computer Name: {pc_name.Name}"
+part_of_domain = f"Part of Domain: {pc_name.partofdomain}"
+domain = f"Domain: {pc_name.Domain}"
+domain_role = f"Domain Role: {pc_name.Domainrole}"
+manufacturer = f"Computer Manufacturer: {pc_name.manufacturer}"
+model = f"Model: {pc_name.model}"
+pc_system_type = f"System Type: {pc_name.PCSystemType}"
+primary_owner_name = f"Primary Owner Name: {pc_name.PrimaryOwnerName}"
+primary_owner_contact = f"Primary Owner Contact: {pc_name.primaryOwnerContact}"
+roles = f"Roles: {pc_name.roles}"
+system_sku_number = f"System SKU Number: {pc_name.systemSKUnumber}"
+username = f"Current User logged in: {pc_name.username}"
+
+#Win32_DiskDrive 
+disk_caption = f"Logical Disk: {logical_disk.caption}"
+
+#Win32_Account 
+local_account = f"Local Account Status: {win_account.localaccount}"
+sid = f"SID: {win_account.sid}"
+
+#Win32_BootConfiguration 
+configuration = f"Boot Path: {win_bootconfiguration.configurationpath}"
+
+#Win32_ComputerSystem 
+identifying_number = f"Identifying Number: {win_computersystem.identifyingnumber}"
+
+#------------------------------------------------------------------------------------------------#
+
+#Create CSV file and sends it to the desired location
+path = "Enter_Your_Path_Here"
+file = open(path, "w")
+writer = csv.writer(file)
+
+data = ([computer_name], [part_of_domain], [domain], [domain_role], [manufacturer], [model], [pc_system_type], [primary_owner_name], [primary_owner_contact], [roles], [system_sku_number], [username], [disk_caption], [local_account], [sid], [configuration], [identifying_number])
+
+file_data = writer.writerows(data)
+
+#------------------------------------------------------------------------------------------------#
+
+#Prints the results
+print(computer_name)
+print(part_of_domain)
+print(domain)
+print(domain_role)
+print(manufacturer)
+print(model)
+print(pc_system_type)
+print(primary_owner_name)
+print(primary_owner_contact)
+print(roles)
+print(system_sku_number)
+print(username)
+print(disk_caption)
+print(local_account)
+print(sid)
+print(configuration)
+print(identifying_number)
+
+
